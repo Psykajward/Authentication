@@ -1,5 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_work_1/Home/Home_page.dart';
 import 'package:flutter/material.dart';
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,10 +86,36 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 60.0),
                 ElevatedButton(
-                  onPressed: () {
-                    // Add authentication logic here
-                    // Example: Validate credentials and authenticate user
-                    // Navigate to home screen if authenticated
+                  onPressed: () async {
+                    try {
+                      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+
+                      if (userCredential.user != null) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(user: userCredential.user!),
+                          ),
+                        );
+                      } else {
+                        // Handle case when user is null despite successful sign-in
+                        print('User not found after sign-in.');
+                        // Show appropriate error message or perform necessary actions
+                      }
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('No user found for that email.');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password provided for that user.');
+                      }
+                      // Show error message or perform actions based on specific error codes
+                    } catch (e) {
+                      print('Error during sign-in: $e');
+                      // Show error message or perform necessary actions
+                    }
                   },
                   child: Text(
                     'Login',

@@ -1,3 +1,4 @@
+import 'package:first_work_1/Home/Home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -102,8 +103,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           password: password,
                         );
                         if (newUser != null) {
-                          // Handle successful registration
-                          // Navigate to a new screen or perform any necessary action
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(user: null),
+                            ),
+                          );
+                          // You can navigate to a new screen or perform any necessary action here
                         }
                       } catch (e) {
                         print(e);
@@ -150,7 +156,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(height: 20.0),
                   TextButton(
                     onPressed: () {
-                      // Implement your logic for additional action (e.g., go back, navigate somewhere else)
+                      Navigator.pop(context);
                     },
                     child: Text(
                       'Already have an account? Log in',

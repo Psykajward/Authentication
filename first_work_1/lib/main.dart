@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:first_work_1/Auth/Login_page.dart';
 import 'package:flutter/material.dart';
 
-import 'Auth/Home_page.dart';
+import 'Home/Home_page.dart';
 import 'Auth/Registration_page.dart';
 
 
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
         '/registration': (context) => RegistrationScreen(),
-        '/Home' : (context) => Home(),
+        '/Home' : (context) => HomePage(),
       },
     );
   }
